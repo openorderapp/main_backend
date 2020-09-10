@@ -1,0 +1,764 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Open Order API",
+    "title": "Open Order",
+    "version": "v1"
+  },
+  "host": "api.openorder.com",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "basePath": "/",
+  "paths": {
+    "/customers": {
+      "get": {
+        "summary": "Get the list of all customers.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of all customers successful!",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "$ref": "#/definitions/Customer"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new customer.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "customer",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created customer successful!"
+          }
+        }
+      }
+    },
+    "/customers/{customer_id}": {
+      "get": {
+        "summary": "Get a customer by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customer_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get customer successful!",
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a customer by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customer_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete customer successful!"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a customer by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customer_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "customer",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update customer successful!"
+          }
+        }
+      }
+    },
+    "/employees": {
+      "get": {
+        "summary": "Get the list of all employees.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of all employees successful!",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "$ref": "#/definitions/Employee"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new employee.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "employee",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Employee"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created employee successful!"
+          }
+        }
+      }
+    },
+    "/employees/{employee_id}": {
+      "get": {
+        "summary": "Get a employee by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "employee_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get employee successful!",
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a employee by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "employee_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete employee successful!"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a employee by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "employee_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "employee",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Employee"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update employee successful!"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "summary": "Get the list of all products and its questions.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of all products successful!",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "$ref": "#/definitions/Product"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new product with questions.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "product",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created product successful!"
+          }
+        }
+      }
+    },
+    "/products/{product_id}": {
+      "get": {
+        "summary": "Get a product(and questions) by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get product successful!",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a product(and questions) by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete product successful!"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a product(and questions) by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "product",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update employee successful!"
+          }
+        }
+      }
+    },
+    "/work_orders": {
+      "get": {
+        "summary": "Get the list of all work orders.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of all work orders successful!",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "$ref": "#/definitions/WorkOrder"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new work order.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "work_order",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/WorkOrder"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created work order successful!"
+          }
+        }
+      }
+    },
+    "/work_orders/{work_order_id}": {
+      "get": {
+        "summary": "Get a work order by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "work_order_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get work order successful!",
+            "schema": {
+              "$ref": "#/definitions/WorkOrder"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a work order by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "work_order_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete work order successful!"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a work order by id.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "work_order_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "work_order",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/WorkOrder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update work order successful!"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "WorkOrder": {
+      "type": "object",
+      "properties": {
+        "work_order_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "no_of_items": {
+          "type": "integer",
+          "example": 15
+        },
+        "total": {
+          "type": "integer",
+          "example": 100
+        },
+        "is_complete": {
+          "type": "boolean",
+          "example": true
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        },
+        "customer": {
+          "type": "object",
+          "$ref": "#/definitions/Customer"
+        },
+        "work_order_products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/WorkOrderProduct"
+          }
+        },
+        "work_order_events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/WorkOrderEvent"
+          }
+        }
+      }
+    },
+    "WorkOrderProduct": {
+      "type": "object",
+      "properties": {
+        "work_order_product_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "work_order_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "product": {
+          "type": "object",
+          "$ref": "#/definitions/Product"
+        },
+        "quantity": {
+          "type": "integer",
+          "example": 5
+        },
+        "subtotal": {
+          "type": "integer",
+          "example": 100
+        },
+        "is_complete": {
+          "type": "boolean",
+          "example": true
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        },
+        "work_order_product_responses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/WorkOrderProductResponse"
+          }
+        }
+      }
+    },
+    "WorkOrderEvent": {
+      "type": "object",
+      "properties": {
+        "work_order_event_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "work_order_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "work_order_event_comments": {
+          "type": "object",
+          "$ref": "#/definitions/WorkOrderEventComment"
+        },
+        "event": {
+          "type": "object",
+          "$ref": "#/definitions/Event"
+        },
+        "employee": {
+          "type": "object",
+          "$ref": "#/definitions/Employee"
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        }
+      }
+    },
+    "WorkOrderProductResponse": {
+      "type": "object",
+      "properties": {
+        "work_order_product_response_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "work_order_product_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "product_question": {
+          "type": "object",
+          "$ref": "#/definitions/ProductQuestion"
+        },
+        "response_text": {
+          "type": "string",
+          "example": "This is answer"
+        },
+        "is_complete": {
+          "type": "boolean",
+          "example": true
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        }
+      }
+    },
+    "Event": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "event_name": {
+          "type": "string",
+          "example": "This is an event"
+        }
+      }
+    },
+    "WorkOrderEventComment": {
+      "type": "object",
+      "properties": {
+        "work_order_event_comment_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "work_order_event_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "work_order_event_comment": {
+          "type": "string",
+          "example": "This is comment"
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        }
+      }
+    },
+    "Customer": {
+      "type": "object",
+      "properties": {
+        "customer_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "customer_first_name": {
+          "type": "string",
+          "example": "Json"
+        },
+        "customer_last_name": {
+          "type": "string",
+          "example": "JavaScript"
+        },
+        "customer_email": {
+          "type": "string",
+          "example": "abc@abc.com"
+        },
+        "customer_phone": {
+          "type": "string",
+          "example": "123-356-1111"
+        },
+        "comments": {
+          "type": "string",
+          "example": "This is comment"
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "product_name": {
+          "type": "string",
+          "example": "Food"
+        },
+        "price": {
+          "type": "integer",
+          "example": 15
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ProductQuestion"
+          }
+        }
+      }
+    },
+    "ProductQuestion": {
+      "type": "object",
+      "properties": {
+        "product_question_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "product_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "question_text": {
+          "type": "string",
+          "example": "This is question"
+        },
+        "step": {
+          "type": "integer",
+          "example": 10
+        },
+        "required": {
+          "type": "boolean",
+          "example": true
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        }
+      }
+    },
+    "Employee": {
+      "type": "object",
+      "properties": {
+        "employee_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "employee_first_name": {
+          "type": "string",
+          "example": "Json"
+        },
+        "employee_last_name": {
+          "type": "string",
+          "example": "JavaScript"
+        },
+        "employee_email": {
+          "type": "string",
+          "example": "abc@abc.com"
+        },
+        "employee_phone": {
+          "type": "string",
+          "example": "123-456-3333"
+        },
+        "employee_user_name": {
+          "type": "string",
+          "example": "abc"
+        },
+        "employee_is_admin": {
+          "type": "boolean",
+          "example": true
+        },
+        "created_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        },
+        "updated_at": {
+          "type": "string",
+          "example": "2020-02-2"
+        }
+      }
+    }
+  }
+}
