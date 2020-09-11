@@ -1,5 +1,4 @@
 const config = {
-    client: 'postgresql',
     connection: {
         database: "openorder_db",
         user: "openorder_backend_user",
