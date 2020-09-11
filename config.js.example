@@ -1,4 +1,5 @@
 const config = {
+    client: 'pg',
     connection: {
         database: "openorder_db",
         user: "openorder_backend_user",
