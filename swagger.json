@@ -5,7 +5,7 @@
     "title": "Open Order",
     "version": "v1"
   },
-  "host": "api.openorder.com",
+  "host": "localhost:3000",
   "schemes": [
     "http",
     "https"

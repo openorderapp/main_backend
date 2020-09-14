@@ -11,6 +11,14 @@ const
     };
 
 
-app.use('/api-docs', swagger_ui.serve, swagger_ui.setup(swagger_document, swagger_options));
+const
+    customers = require('./routes/customers'),
+    employees = require('./routes/employees');
+
+app
+    .use('/api-docs', swagger_ui.serve, swagger_ui.setup(swagger_document, swagger_options))
+    .use(express.json())
+    .use('/customers', customers)
+    .use('/employees', employees);
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
