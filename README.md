@@ -1,3 +1,11 @@
 To start this project, please:
-- npm install
-- node sever
+
+``` bash
+npm install
+```
+``` bash
+cp config.js.example config.js
+```
+``` bash
+npm run start
+```
