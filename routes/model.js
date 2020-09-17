@@ -1,10 +1,15 @@
 const express = require('express')
 
+const
+    config = require('../config'),
+    knex = require('knex')(config);
+
 class RouteModel{
+    
     constructor(model_name, model_id) {
         this.model_name = model_name
         this.model_id = model_id
-        this.model_router = express.router()
+        this.model_router = express.Router()
 
         this.generate_default_routes()
     }
