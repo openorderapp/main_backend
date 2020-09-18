@@ -1,5 +1,5 @@
 const 
-    RouteModel = require("./model"),
+    RouteModel = require("./model/model"),
     MODEL_NAME = 'employees',
     MODEL_ID = 'employee_id',
     employee_model = new RouteModel(MODEL_NAME, MODEL_ID)

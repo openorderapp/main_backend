@@ -1,7 +1,7 @@
 const express = require('express')
 
 const
-    config = require('../config'),
+    config = require('../../config'),
     knex = require('knex')(config);
 
 class RouteModel{
