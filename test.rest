@@ -1,0 +1,25 @@
+GET http://localhost:3000/employees
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA1LCJpYXQiOjE2MDA4OTk2NDF9.AOjDaf0kM4YC3TfEPi0hUTFY2FasRyAy_zBkDaaqGAg
+###
+
+POST http://localhost:3000/employees/register
+Content-Type: application/json
+
+{
+    "employee_first_name": "Walter",
+    "employee_last_name": "Torphy",
+    "employee_email": "Kacie.Aufderhar@yafhoo.commm",
+    "employee_phone": "678-965-0778 x531",
+    "employee_user_name": "Ursula.Riceeee",
+    "password": "aaabbbcccc"
+}
+###
+
+POST http://localhost:3000/employees/login
+Content-Type: application/json
+
+{
+    "userName":"Kacie.Aufderhar@yahoo.comm",
+    "password": "aaabbbcccc"
+}
+###
