@@ -12,6 +12,7 @@ const
 
 
 const
+    employee_auth = require('./routes/employee_auth'),
     customers = require('./routes/customers'),
     employees = require('./routes/employees'),
     events = require('./routes/events'),
@@ -26,6 +27,7 @@ const
 app
     .use('/api-docs', swagger_ui.serve, swagger_ui.setup(swagger_document, swagger_options))
     .use(express.json())
+    .use('/auth/employee', employee_auth)
     .use('/customers', customers)
     .use('/employees', employees)
     .use('/events', events)

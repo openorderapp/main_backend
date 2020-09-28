@@ -7,13 +7,13 @@ npm install
 cp config.js.example config.js
 ```
 ``` bash
-cp .env.example .env
-```
-``` bash
 npm run start
 ```
 
-To run test.rest, please
-- Download REST extension on your VS code
-- Start server and database
-- Test register/login actions by clicking "Send Request" text on the test.rest file
+## Testing Routes
+
+1. Add REST extension to VS code
+    - https://github.com/Huachao/vscode-restclient
+2. Start server and database
+    - ```npm run start```
+3. Test register/login actions by clicking "Send Request" text in the test.rest file

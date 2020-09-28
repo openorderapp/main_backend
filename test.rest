@@ -1,8 +1,8 @@
-GET http://localhost:3000/employees
+GET http://localhost:3000/auth/employee
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA1LCJpYXQiOjE2MDA4OTk2NDF9.AOjDaf0kM4YC3TfEPi0hUTFY2FasRyAy_zBkDaaqGAg
 ###
 
-POST http://localhost:3000/employees/register
+POST http://localhost:3000/auth/employee/register
 Content-Type: application/json
 
 {
@@ -15,11 +15,11 @@ Content-Type: application/json
 }
 ###
 
-POST http://localhost:3000/employees/login
+POST http://localhost:3000/auth/employee/login
 Content-Type: application/json
 
 {
-    "userName":"Kacie.Aufderhar@yahoo.comm",
+    "user_name":"Kacie.Aufderhar@yafhoo.commm",
     "password": "aaabbbcccc"
 }
 ###
