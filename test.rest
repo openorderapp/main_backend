@@ -23,3 +23,9 @@ Content-Type: application/json
     "password": "aaabbbcccc"
 }
 ###
+
+GET http://localhost:3000/employees
+
+###
+
+GET http://localhost:3000/products

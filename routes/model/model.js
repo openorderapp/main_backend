@@ -6,9 +6,10 @@ const
 
 class RouteModel{
     
-    constructor(model_name, model_id) {
+    constructor(model_name, model_id, select_columns) {
         this.model_name = model_name
         this.model_id = model_id
+        this.select_columns = select_columns
         this.model_router = express.Router()
 
         this.generate_default_routes()
@@ -17,7 +18,7 @@ class RouteModel{
     generate_default_routes() {
         this.model_router.get('/', async(req, res) => {
             try{
-                const query_result = await knex(this.model_name).select()
+                const query_result = await knex(this.model_name).select(this.select_columns)
                 res.json(query_result)
             }catch(err){
                 res.status(500).json({message:err.message})
@@ -26,7 +27,7 @@ class RouteModel{
 
         this.model_router.get('/:' + this.model_id, async(req, res) => {
             try{
-                const query_result = (await knex(this.model_name).where(this.model_id, req.params[this.model_id]).select())[0];
+                const query_result = (await knex(this.model_name).where(this.model_id, req.params[this.model_id]).select(this.select_columns))[0];
                 if(query_result == null){
                     return res.status(404).json({message:`Can not find ${this.model_name}!`});
                 }
