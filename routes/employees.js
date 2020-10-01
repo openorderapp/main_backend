@@ -13,6 +13,9 @@ const
         'created_at',
         'updated_at'
     ],
-    employee_model = new RouteModel(MODEL_NAME, MODEL_ID, SELECT_COLUMNS)
+    DISABLED_ROUTES = [
+        'POST'
+    ]
+    employee_model = new RouteModel(MODEL_NAME, MODEL_ID, SELECT_COLUMNS, DISABLED_ROUTES)
 
 module.exports = employee_model.model_router;
