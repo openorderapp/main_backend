@@ -1,4 +1,5 @@
-const 
+const
+    RESTAPI_TYPES = require('./enum/restapi_types'),
     RouteModel = require("./model/model"),
     MODEL_NAME = 'employees',
     MODEL_ID = 'employee_id',
@@ -8,11 +9,16 @@ const
         'employee_last_name',
         'employee_email',
         'employee_phone',
-        'employee_user_name',
+        'employee_username',
         'employee_is_admin',
         'created_at',
         'updated_at'
     ],
-    employee_model = new RouteModel(MODEL_NAME, MODEL_ID, SELECT_COLUMNS)
+    DISABLED_ROUTES = [
+        RESTAPI_TYPES.POST,
+        RESTAPI_TYPES.PUT,
+        RESTAPI_TYPES.DELETE
+    ],
+    employee_model = new RouteModel(MODEL_NAME, MODEL_ID, SELECT_COLUMNS, DISABLED_ROUTES);
 
 module.exports = employee_model.model_router;

@@ -1,16 +1,16 @@
 GET http://localhost:3000/auth/employee
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA1LCJpYXQiOjE2MDA4OTk2NDF9.AOjDaf0kM4YC3TfEPi0hUTFY2FasRyAy_zBkDaaqGAg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTExLCJpYXQiOjE2MDE1MDkxNzF9.6z0rMOTVih3gjNod8UcN9Jx9P9E9hBC17LrvWXOI_9U
 ###
 
 POST http://localhost:3000/auth/employee/register
 Content-Type: application/json
 
 {
-    "employee_first_name": "Walter",
-    "employee_last_name": "Torphy",
-    "employee_email": "Kacie.Aufderhar@yafhoo.commm",
-    "employee_phone": "678-965-0778 x531",
-    "employee_user_name": "Ursula.Riceeee",
+    "first_name": "Walter",
+    "last_name": "Torphy",
+    "email": "kKaciee.Aufderhar@yafhoo.commm",
+    "phone": "978-965-8778 x531",
+    "username": "uUrsulaa.Riceeeeee",
     "password": "aaabbbcccc"
 }
 ###
@@ -19,13 +19,8 @@ POST http://localhost:3000/auth/employee/login
 Content-Type: application/json
 
 {
-    "user_name":"Kacie.Aufderhar@yafhoo.commm",
+    "username":"uUrsulaa.Riceeeeee",
     "password": "aaabbbcccc"
 }
 ###
 
-GET http://localhost:3000/employees
-
-###
-
-GET http://localhost:3000/products

@@ -1,9 +1,9 @@
-const 
+const
     express = require('express'),
     swagger_ui = require('swagger-ui-express'),
     swagger_document = require('./swagger.json');
 
-const 
+const
     app = express(),
     port = 3000,
     swagger_options = {
@@ -27,6 +27,8 @@ const
 app
     .use('/api-docs', swagger_ui.serve, swagger_ui.setup(swagger_document, swagger_options))
     .use(express.json())
+    .use(express.urlencoded({ extended: false }))
+    .use(express.static('public'))
     .use('/auth/employee', employee_auth)
     .use('/customers', customers)
     .use('/employees', employees)
