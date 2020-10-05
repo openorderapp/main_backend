@@ -8,9 +8,9 @@ Content-Type: application/json
 {
     "first_name": "Walter",
     "last_name": "Torphy",
-    "email": "kKaciee.Aufderhar@yafhoo.commm",
-    "phone": "978-965-8778 x531",
-    "username": "uUrsulaa.Riceeeeee",
+    "email": "kKaciee.Aufderhar@yasdffhoo.commm",
+    "phone": "978-965-8778 x531234",
+    "username": "uUrsulaa.Riceeeeeee",
     "password": "aaabbbcccc"
 }
 ###

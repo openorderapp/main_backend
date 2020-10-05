@@ -65,29 +65,29 @@ const authenticate_captcha = (req, res, next) => {
 // TODO:
 // Update this function so that it's parameters are email, username, and phone_number
 // Validation that these values exist in the request should be done before this function
-const find_by_email_or_username_or_phone = async (req) => {
+const find_by_email_or_username_or_phone = async (username, email, phone) => {
     try {
 
-        let 
+        let
             first_where_clause = true,
             base_query = knex(MODEL_NAME)
 
-        if (req.body.username) {
-            first_where_clause = stacking_where_mutator(base_query, "employee_username", req.body.username, first_where_clause, true)
+        if (username) {
+            first_where_clause = stacking_where_mutator(base_query, "employee_username", username, first_where_clause, true)
         }
 
-        if (req.body.email) {
-            first_where_clause = stacking_where_mutator(base_query, "employee_email", req.body.email, first_where_clause, true)
+        if (email) {
+            first_where_clause = stacking_where_mutator(base_query, "employee_email", email, first_where_clause, true)
         }
 
-        if (req.body.phone) {
-            first_where_clause = stacking_where_mutator(base_query, "employee_phone", req.body.phone, first_where_clause, true)
+        if (phone) {
+            first_where_clause = stacking_where_mutator(base_query, "employee_phone", phone, first_where_clause, true)
         }
 
         const matching_employees = await base_query.select()
 
         return matching_employees[0]
-        
+
     } catch (err) {
         return null;
     }
@@ -118,7 +118,18 @@ const create_employee = async (employee) => {
 const register = async (req, res) => {
     try {
 
-        const existing_employee = await find_by_email_or_username_or_phone(req);
+        // Validation Parameters
+        if (!(
+            req.body.first_name &&
+            req.body.last_name &&
+            req.body.email &&
+            req.body.phone &&
+            req.body.username &&
+            req.body.password
+        ))
+            return res.json({ message: "Pleases complete the registration form!" });
+
+        const existing_employee = await find_by_email_or_username_or_phone(req.body.username, req.body.email, req.body.phone);
 
         if (existing_employee)
             // We should never leak the fact that an email address or user name is in our system.
@@ -154,7 +165,11 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
 
-        const existing_employee = await find_by_email_or_username_or_phone(req);
+        // Validation Parameters
+        if (!(req.body.username && req.body.password))
+            return res.json({ message: "Pleases complete the log in form!" });
+
+        const existing_employee = await find_by_email_or_username_or_phone(req.body.username, req.body.username, null);
 
         // Here I noticed we return different messages depending on 
         // account existing or not. This can cause data leakage, we should
