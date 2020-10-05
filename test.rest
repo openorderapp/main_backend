@@ -1,0 +1,26 @@
+GET http://localhost:3000/auth/employee
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTExLCJpYXQiOjE2MDE1MDkxNzF9.6z0rMOTVih3gjNod8UcN9Jx9P9E9hBC17LrvWXOI_9U
+###
+
+POST http://localhost:3000/auth/employee/register
+Content-Type: application/json
+
+{
+    "first_name": "Walter",
+    "last_name": "Torphy",
+    "email": "kKaciee.Aufderhar@yasdffhoo.commm",
+    "phone": "978-965-8778 x531234",
+    "username": "uUrsulaa.Riceeeeeee",
+    "password": "aaabbbcccc"
+}
+###
+
+POST http://localhost:3000/auth/employee/login
+Content-Type: application/json
+
+{
+    "username":"uUrsulaa.Riceeeeee",
+    "password": "aaabbbcccc"
+}
+###
+

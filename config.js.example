@@ -6,7 +6,9 @@ const config = {
         password: "dummypassword",
         port: 5432,
         host: "127.0.0.1"
-    }
+    },
+    access_token_secret: "e6307cb3ccf280393faf3c2bcf7284677a2e84433612edb4eef93ffbcd1a4fbb3c40961749bf038884d6d9a67d6cc8965d43f950e3a9e5d9ed4b7d2ec5ec5302",
+    captcha_secretkey: "6LcaKtIZAAAAAMle0f8kTa0hj2Auf9R9pqzOxaF6"
 }
 
 module.exports = config;
