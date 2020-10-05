@@ -11,7 +11,7 @@ class RouteModel {
         this.model_name = model_name
         this.model_id = model_id
         this.select_columns = select_columns
-        // Options GET, GET:ID, POST, PUT, DELETE
+        // Options GET, GET_ID, POST, PUT, DELETE
         this.disabled_routes = disabled_routes
         this.model_router = express.Router()
 

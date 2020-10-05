@@ -62,33 +62,47 @@ const authenticate_captcha = (req, res, next) => {
 }
 
 // Function which finds employee by email or username
+// TODO:
+// Update this function so that it's parameters are email, username, and phone_number
+// Validation that these values exist in the request should be done before this function
 const find_by_email_or_username_or_phone = async (req) => {
     try {
-        if (!req.body.username)
-            return null;
 
-        if (req.body.email && req.body.phone) {
+        let 
+            first_where_clause = true,
+            base_query = knex(MODEL_NAME)
 
-            const existing_employee = (await knex(MODEL_NAME)
-                .where("employee_username", req.body.username)
-                .orWhere("employee_email", req.body.email)
-                .orWhere("employee_phone", req.body.phone)
-                .select())[0];
-
-            return existing_employee;
-
-        } else {
-
-            const existing_employee = (await knex(MODEL_NAME)
-                .where("employee_username", req.body.username)
-                .orWhere("employee_email", req.body.username)
-                .select())[0];
-
-            return existing_employee;
+        if (req.body.username) {
+            first_where_clause = stacking_where_mutator(base_query, "employee_username", req.body.username, first_where_clause, true)
         }
 
+        if (req.body.email) {
+            first_where_clause = stacking_where_mutator(base_query, "employee_email", req.body.email, first_where_clause, true)
+        }
+
+        if (req.body.phone) {
+            first_where_clause = stacking_where_mutator(base_query, "employee_phone", req.body.phone, first_where_clause, true)
+        }
+
+        const matching_employees = await base_query.select()
+
+        return matching_employees[0]
+        
     } catch (err) {
         return null;
+    }
+}
+
+const stacking_where_mutator = (base_query, column, value, first, or) => {
+    if (first) {
+        base_query.where(column, value)
+        return false
+    } else {
+        if (or) {
+            base_query.orWhere(column, value)
+        } else {
+            base_query.andWhere(column, value)
+        }
     }
 }
 
@@ -103,10 +117,7 @@ const create_employee = async (employee) => {
 
 const register = async (req, res) => {
     try {
-        // TODO: 
-        // This request should be in a separate function
-        // Should be called find_by_email_or_user_name
-        // -> Please see find_by_email_or_username_or_phone
+
         const existing_employee = await find_by_email_or_username_or_phone(req);
 
         if (existing_employee)
@@ -118,7 +129,7 @@ const register = async (req, res) => {
 
             // TODO:
             // We should let the user know their email is taken or their user name.
-            return res.json({ message: "Employee with same user name, phone or email address already exists!" });
+            return res.json({ message: "Employee with same username, phone or email address already exists!" });
 
         const salt = await bcryt.genSalt(10);
         const hash_password = await bcryt.hash(req.body.password, salt);
@@ -133,10 +144,6 @@ const register = async (req, res) => {
             employee_is_admin: true
         };
 
-        // TODO: 
-        // This request should be a separate function
-        // Should be called create
-        // -> Please see create_employee
         await create_employee(employee);
         res.status(201).json({ message: `Registered successfully!` });
     } catch (err) {
@@ -146,10 +153,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        // TODO: 
-        // This request should be in a separate function
-        // Should be called find_by_email_or_user_name
-        // -> Please see find_by_email_or_username_or_phone
+
         const existing_employee = await find_by_email_or_username_or_phone(req);
 
         // Here I noticed we return different messages depending on 

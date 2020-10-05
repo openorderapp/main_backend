@@ -41,16 +41,19 @@
         </form>
     </div>
 
-
-    <script src="https://www.google.com/recaptcha/api.js?render=6LcaKtIZAAAAAK6RCXm1AoJfpgWNWo7wUzwzUZA-"></script>
+    <!-- Update site key in url and script below -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6Ldf9NMZAAAAAPCC1w5FxgiMW9gobpVTO0toeFoa"></script>
     <script>
+
+        const reCAPTCHA_site_key = '6Ldf9NMZAAAAAPCC1w5FxgiMW9gobpVTO0toeFoa'
+
         document.getElementById('register-form').addEventListener('submit', function (e) {
             e.preventDefault();
             runCaptcha();
         });
 
         function runCaptcha() {
-            grecaptcha.execute('6LcaKtIZAAAAAK6RCXm1AoJfpgWNWo7wUzwzUZA-', { action: 'register' })
+            grecaptcha.execute(reCAPTCHA_site_key, { action: 'register' })
                 .then(function (captcha) {
                     handleClick(captcha);
                 });
