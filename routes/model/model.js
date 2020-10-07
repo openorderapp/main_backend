@@ -1,4 +1,7 @@
-const express = require('express')
+const
+    express = require('express'),
+    authenticate_token = require('../middleware/authenticate_token');
+
 
 const
     config = require('../../config'),
@@ -21,7 +24,7 @@ class RouteModel {
     generate_default_routes() {
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.GET)) {
-            this.model_router.get('/', async (req, res) => {
+            this.model_router.get('/', authenticate_token, async (req, res) => {
                 try {
                     const query_result = await knex(this.model_name).select(this.select_columns)
                     res.json(query_result)
@@ -32,7 +35,7 @@ class RouteModel {
         }
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.GET_ID)) {
-            this.model_router.get('/:' + this.model_id, async (req, res) => {
+            this.model_router.get('/:' + this.model_id, authenticate_token, async (req, res) => {
                 try {
                     const query_result = (await knex(this.model_name).where(this.model_id, req.params[this.model_id]).select(this.select_columns))[0];
                     if (query_result == null) {
@@ -46,7 +49,7 @@ class RouteModel {
         }
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.POST)) {
-            this.model_router.post('/', async (req, res) => {
+            this.model_router.post('/', authenticate_token, async (req, res) => {
                 try {
                     const insert_payload = { ...req.body };
                     await knex(this.model_name).insert(insert_payload);
@@ -58,7 +61,7 @@ class RouteModel {
         }
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.PUT)) {
-            this.model_router.put('/:' + this.model_id, async (req, res) => {
+            this.model_router.put('/:' + this.model_id, authenticate_token, async (req, res) => {
                 try {
                     const update_payload = { ...req.body };
                     await knex(this.model_name).where(this.model_id, req.params[this.model_id]).update(update_payload);
@@ -70,7 +73,7 @@ class RouteModel {
         }
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.DELETE)) {
-            this.model_router.delete('/:' + this.model_id, async (req, res) => {
+            this.model_router.delete('/:' + this.model_id, authenticate_token, async (req, res) => {
                 try {
                     await knex(this.model_name).where(this.model_id, req.params[this.model_id]).delete();
                     res.json({ message: `Deleted ${this.model_id} successful!` });
