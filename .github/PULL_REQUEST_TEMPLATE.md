@@ -1,15 +1,13 @@
 # Description
 
-Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
-
-Fixes # (issue)
+- Set authenticate_token middleware on route by using route.use() method in model.js
 
 # How Has This Been Tested?
 
-Please describe the tests that you ran to verify your changes. Please also note any relevant details for your test configuration.
-
-- [ ] Test A
-- [ ] Test B
+- Turn on your database
+- Change your directory to main_backend, run "node server" on the CMD to start the server 
+- Go to test.rest, click "Send Request" which is above "GET http://localhost:3000/products/"
+- You will see the results
 
 # Checklist:
 

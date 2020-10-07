@@ -24,7 +24,10 @@ Content-Type: application/json
 }
 ###
 
-GET http://localhost:3000/work_orders/
+GET http://localhost:3000/products/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJpYXQiOjE2MDIwMjk3NDl9.Om0VmaVDoYsljpK-1Sz4KW-Afo39WgktDTfAdxRwess
 ###
+
+
+
 
