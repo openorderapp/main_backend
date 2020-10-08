@@ -1,5 +1,5 @@
 GET http://localhost:3000/auth/employee
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTExLCJpYXQiOjE2MDE1MDkxNzF9.6z0rMOTVih3gjNod8UcN9Jx9P9E9hBC17LrvWXOI_9U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJpYXQiOjE2MDIwMjk3NDl9.Om0VmaVDoYsljpK-1Sz4KW-Afo39WgktDTfAdxRwess
 ###
 
 POST http://localhost:3000/auth/employee/register
@@ -23,4 +23,11 @@ Content-Type: application/json
     "password": "aaabbbcccc"
 }
 ###
+
+GET http://localhost:3000/products/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJpYXQiOjE2MDIwMjk3NDl9.Om0VmaVDoYsljpK-1Sz4KW-Afo39WgktDTfAdxRwess
+###
+
+
+
 

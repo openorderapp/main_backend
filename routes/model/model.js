@@ -1,4 +1,6 @@
-const express = require('express')
+const
+    express = require('express'),
+    authenticate_token = require('../middleware/authenticate_token');
 
 const
     config = require('../../config'),
@@ -19,6 +21,8 @@ class RouteModel {
     }
 
     generate_default_routes() {
+
+        this.model_router.use(authenticate_token);
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.GET)) {
             this.model_router.get('/', async (req, res) => {
