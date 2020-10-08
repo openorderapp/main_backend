@@ -37,6 +37,13 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" class="form-control" value="123456789" required>
             </div>
+            <div class="form-group">
+                <label for="admin">Are you admin?</label>
+                <select name="admin" id="admin" required>
+                    <option value="true">Yes</option>
+                    <option value="false" selected>No</option>
+                </select>
+            </div>
             <input type="submit" value="Submit" class="btn btn-primary">
         </form>
     </div>
@@ -67,6 +74,7 @@
                 phone: document.getElementById('phone').value,
                 username: document.getElementById('username').value,
                 password: document.getElementById('password').value,
+                admin: document.getElementById('admin').value,
                 captcha: captcha
             };
 

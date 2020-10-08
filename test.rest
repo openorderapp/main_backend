@@ -1,31 +1,6 @@
-GET http://localhost:3000/auth/employee
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJpYXQiOjE2MDIwMjk3NDl9.Om0VmaVDoYsljpK-1Sz4KW-Afo39WgktDTfAdxRwess
-###
 
-POST http://localhost:3000/auth/employee/register
-Content-Type: application/json
-
-{
-    "first_name": "Walter",
-    "last_name": "Torphy",
-    "email": "kKaciee.Aufderhar@yasdffhoo.commm",
-    "phone": "978-965-8778 x531234",
-    "username": "uUrsulaa.Riceeeeeee",
-    "password": "aaabbbcccc"
-}
-###
-
-POST http://localhost:3000/auth/employee/login
-Content-Type: application/json
-
-{
-    "username":"uUrsulaa.Riceeeeee",
-    "password": "aaabbbcccc"
-}
-###
-
-GET http://localhost:3000/products/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJpYXQiOjE2MDIwMjk3NDl9.Om0VmaVDoYsljpK-1Sz4KW-Afo39WgktDTfAdxRwess
+GET http://localhost:3000/work_order_event_comments/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTYwMjE4NTY1MX0.phBnfjtwrjDaP9xSekucccc62mVGFK-3fYJQf6eK5Vg
 ###
 
 

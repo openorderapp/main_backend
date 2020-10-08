@@ -1,11 +1,14 @@
 const
     express = require('express'),
-    authenticate_token = require('../middleware/authenticate_token');
+    authenticate_token = require('../middleware/authenticate_token'),
+    authenticate_admin = require('../middleware/authenticate_admin');
 
 const
     config = require('../../config'),
     knex = require('knex')(config),
     RESTAPI_TYPES = require('../enum/restapi_types');
+
+const REQUIRE_ADMIN = ['employees', 'products'];
 
 class RouteModel {
 
@@ -22,6 +25,7 @@ class RouteModel {
 
     generate_default_routes() {
 
+        // Middleware to authenticate if user is logged in
         this.model_router.use(authenticate_token);
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.GET)) {
@@ -48,6 +52,12 @@ class RouteModel {
                 }
             });
         }
+
+        // Only admin user can create, update or delete employee or product,
+        // If this model is employee or product, set middleware to authenticate is
+        // this user admin
+        if (REQUIRE_ADMIN.includes(this.model_name))
+            this.model_router.use(authenticate_admin);
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.POST)) {
             this.model_router.post('/', async (req, res) => {
