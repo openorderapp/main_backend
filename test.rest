@@ -1,5 +1,5 @@
 
-GET http://localhost:3000/work_order_event_comments/3
+GET http://localhost:3000/products/3
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTYwMjE4NTY1MX0.phBnfjtwrjDaP9xSekucccc62mVGFK-3fYJQf6eK5Vg
 ###
 
