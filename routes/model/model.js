@@ -36,16 +36,14 @@ class RouteModel {
                 this.model_router.get('/', authenticate_admin)
             }
 
-            if (!this.disabled_routes.includes(RESTAPI_TYPES.GET)) {
-                this.model_router.get('/', async (req, res) => {
-                    try {
-                        const query_result = await knex(this.model_name).select(this.select_columns)
-                        res.json(query_result)
-                    } catch (err) {
-                        res.status(500).json({ message: err.message })
-                    }
-                })
-            }
+            this.model_router.get('/', async (req, res) => {
+                try {
+                    const query_result = await knex(this.model_name).select(this.select_columns)
+                    res.json(query_result)
+                } catch (err) {
+                    res.status(500).json({ message: err.message })
+                }
+            })
         }
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.GET_ID)) {
