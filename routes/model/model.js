@@ -28,124 +28,146 @@ class RouteModel {
         this.generate_default_routes()
     }
 
-    generate_default_routes() {
+    generate_route_path(restapi_type) {
+        let route_path = '/'
 
-        if (!this.disabled_routes.includes(RESTAPI_TYPES.GET)) {
+        if (restapi_type === RESTAPI_TYPES.GET_ID || restapi_type === RESTAPI_TYPES.PUT || restapi_type === RESTAPI_TYPES.DELETE) {
+            route_path += `:${this.model_id}`
+        }
 
-            // Check if route needs user to be logged in
-            if (this.authenticated_routes.includes(RESTAPI_TYPES.GET)) {
-                this.model_router.get('/', authenticate_token)
-            }
+        return route_path
+    }
 
-            // Check if this route needs admin permissions
-            if (this.admin_routes.includes(RESTAPI_TYPES.GET)) {
-                this.model_router.get('/', authenticate_admin)
-            }
+    generate_route_method(restapi_type) {
+        let route_method
 
-            if (!this.disabled_routes.includes(RESTAPI_TYPES.GET)) {
-                this.model_router.get('/', async (req, res) => {
+        switch (restapi_type) {
+            case RESTAPI_TYPES.GET_ID:
+            case RESTAPI_TYPES.GET:
+                route_method = this.model_router.get
+                break;
+            case RESTAPI_TYPES.PUT:
+                route_method = this.model_router.put
+                break;
+            case RESTAPI_TYPES.POST:
+                route_method = this.model_router.post
+                break;
+            case RESTAPI_TYPES.DELETE:
+                route_method = this.model_router.delete
+                break;
+            default:
+                throw 'Bad restapi_type in generate_route_config'
+        }
+
+        return route_method
+    }
+
+    generate_route_handler(restapi_type) {
+
+        let route_handler
+
+        switch (restapi_type) {
+            case RESTAPI_TYPES.GET:
+                route_handler = async (req, res) => {
                     try {
                         const query_result = await knex(this.model_name).select(this.select_columns)
                         res.json(query_result)
                     } catch (err) {
                         res.status(500).json({ message: err.message })
                     }
-                })
-            }
-        }
-
-        if (!this.disabled_routes.includes(RESTAPI_TYPES.GET_ID)) {
-
-            // Check if route needs user to be logged in
-            if (this.authenticated_routes.includes(RESTAPI_TYPES.GET_ID)) {
-                this.model_router.get('/:' + this.model_id, authenticate_token)
-            }
-
-            // Check if this route needs admin permissions
-            if (this.admin_routes.includes(RESTAPI_TYPES.GET_ID)) {
-                this.model_router.get('/:' + this.model_id, authenticate_admin)
-            }
-
-            this.model_router.get('/:' + this.model_id, async (req, res) => {
-                try {
-                    const query_result = (await knex(this.model_name).where(this.model_id, req.params[this.model_id]).select(this.select_columns))[0];
-                    if (query_result == null) {
-                        return res.status(404).json({ message: `Can not find ${this.model_name}!` });
+                }
+                break;
+            case RESTAPI_TYPES.GET_ID:
+                route_handler = async (req, res) => {
+                    try {
+                        const query_result = (await knex(this.model_name).where(this.model_id, req.params[this.model_id]).select(this.select_columns))[0];
+                        if (query_result == null) {
+                            return res.status(404).json({ message: `Can not find ${this.model_name}!` });
+                        }
+                        res.json(query_result);
+                    } catch (err) {
+                        res.status(500).json({ message: err.message });
                     }
-                    res.json(query_result);
-                } catch (err) {
-                    res.status(500).json({ message: err.message });
                 }
-            });
+                break;
+            case RESTAPI_TYPES.POST:
+                route_handler = async (req, res) => {
+                    try {
+                        const insert_payload = { ...req.body };
+                        await knex(this.model_name).insert(insert_payload);
+                        res.status(201).json({ message: `Create ${this.model_name} successfully!` });
+                    } catch (err) {
+                        res.status(400).json({ message: err.message });
+                    }
+                }
+                break;
+            case RESTAPI_TYPES.PUT:
+                route_handler = async (req, res) => {
+                    try {
+                        const update_payload = { ...req.body };
+                        await knex(this.model_name).where(this.model_id, req.params[this.model_id]).update(update_payload);
+                        res.json({ message: `Updated ${this.model_name} successfully!` });
+                    } catch (err) {
+                        res.status(400).json({ message: err.message });
+                    }
+                }
+                break;
+            case RESTAPI_TYPES.DELETE:
+                route_handler = async (req, res) => {
+                    try {
+                        await knex(this.model_name).where(this.model_id, req.params[this.model_id]).delete();
+                        res.json({ message: `Deleted ${this.model_id} successful!` });
+                    } catch (err) {
+                        res.status(400).json({ message: err.message });
+                    }
+                }
+                break;
+            default:
+                throw 'Bad restapi_type in generate_route_handler'
         }
 
-        if (!this.disabled_routes.includes(RESTAPI_TYPES.POST)) {
+        return route_handler
 
+    }
+
+    generate_route_config(restapi_type) {
+        return {
+            path: this.generate_route_path(restapi_type),
+            method: this.generate_route_method(restapi_type),
+            handler: this.generate_route_handler(restapi_type)
+        }
+    }
+
+    generate_default_routes() {
+
+        ALL_RESTAPI_TYPES.forEach(restapi_type => {
+
+            // Skip restapi type if included in disabled_routes
+            if (this.disabled_routes.includes(restapi_type)) {
+                return
+            }
+
+            // Create express router method and path
+            const route_config = this.generate_route_config(restapi_type)
+
+            // Add required middleware
             // Check if route needs user to be logged in
-            if (this.authenticated_routes.includes(RESTAPI_TYPES.POST)) {
-                this.model_router.post('/', authenticate_token)
+            if (this.authenticated_routes.includes(restapi_type)) {
+                route_config.method.bind(this.model_router, [route_config.path, authenticate_token])()
             }
 
             // Check if this route needs admin permissions
-            if (this.admin_routes.includes(RESTAPI_TYPES.POST)) {
-                this.model_router.post('/', authenticate_admin)
+            if (this.admin_routes.includes(restapi_type)) {
+                route_config.method.bind(this.model_router, [route_config.path, authenticate_admin])()
             }
 
-            this.model_router.post('/', async (req, res) => {
-                try {
-                    const insert_payload = { ...req.body };
-                    await knex(this.model_name).insert(insert_payload);
-                    res.status(201).json({ message: `Create ${this.model_name} successfully!` });
-                } catch (err) {
-                    res.status(400).json({ message: err.message });
-                }
-            });
-        }
+            // Main route handler
+            const route_handler = route_config.handler
 
-        if (!this.disabled_routes.includes(RESTAPI_TYPES.PUT)) {
+            // Add route to router
+            route_config.method.bind(this.model_router, [route_config.path, route_handler])()
 
-            // Check if route needs user to be logged in
-            if (this.authenticated_routes.includes(RESTAPI_TYPES.PUT)) {
-                this.model_router.put('/:' + this.model_id, authenticate_token)
-            }
-
-            // Check if this route needs admin permissions
-            if (this.admin_routes.includes(RESTAPI_TYPES.PUT)) {
-                this.model_router.put('/:' + this.model_id, authenticate_admin)
-            }
-
-            this.model_router.put('/:' + this.model_id, async (req, res) => {
-                try {
-                    const update_payload = { ...req.body };
-                    await knex(this.model_name).where(this.model_id, req.params[this.model_id]).update(update_payload);
-                    res.json({ message: `Updated ${this.model_name} successfully!` });
-                } catch (err) {
-                    res.status(500).json({ message: err.message });
-                }
-            });
-        }
-
-        if (!this.disabled_routes.includes(RESTAPI_TYPES.DELETE)) {
-
-            // Check if route needs user to be logged in
-            if (this.authenticated_routes.includes(RESTAPI_TYPES.DELETE)) {
-                this.model_router.delete('/:' + this.model_id, authenticate_token)
-            }
-
-            // Check if this route needs admin permissions
-            if (this.admin_routes.includes(RESTAPI_TYPES.DELETE)) {
-                this.model_router.delete('/:' + this.model_id, authenticate_admin)
-            }
-
-            this.model_router.delete('/:' + this.model_id, async (req, res) => {
-                try {
-                    await knex(this.model_name).where(this.model_id, req.params[this.model_id]).delete();
-                    res.json({ message: `Deleted ${this.model_id} successful!` });
-                } catch (err) {
-                    res.status(500).json({ message: err.message });
-                }
-            });
-        }
+        })
     }
 }
 
