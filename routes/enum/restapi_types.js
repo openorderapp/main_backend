@@ -7,4 +7,13 @@ const RESTAPI_TYPES = {
 }
 Object.freeze(RESTAPI_TYPES);
 
-module.exports = RESTAPI_TYPES;
+module.exports = {
+    RESTAPI_TYPES,
+    ALL_RESTAPI_TYPES: [
+        RESTAPI_TYPES.GET,
+        RESTAPI_TYPES.GET_ID,
+        RESTAPI_TYPES.POST,
+        RESTAPI_TYPES.PUT,
+        RESTAPI_TYPES.DELETE
+    ]
+}

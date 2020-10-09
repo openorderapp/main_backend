@@ -1,4 +1,5 @@
 const
+    RESTAPI_TYPES = require("./enum/restapi_types").RESTAPI_TYPES,
     RouteModel = require("./model/model"),
     MODEL_NAME = 'products',
     MODEL_ID = 'product_id',
