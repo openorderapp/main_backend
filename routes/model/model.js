@@ -6,19 +6,23 @@ const
 const
     config = require('../../config'),
     knex = require('knex')(config),
-    RESTAPI_TYPES = require('../enum/restapi_types').RESTAPI_TYPES
+    RESTAPI_TYPES = require('../enum/restapi_types').RESTAPI_TYPES,
+    ALL_RESTAPI_TYPES = require('../enum/restapi_types').ALL_RESTAPI_TYPES
 
 class RouteModel {
 
-    constructor(model_name, model_id, select_columns = [], disabled_routes = [], admin_routes = [], authenticated_routes = []) {
+    constructor(model_name, model_id, options = {}) {
         this.model_name = model_name
         this.model_id = model_id
-        this.select_columns = select_columns
 
         // Options GET, GET_ID, POST, PUT, DELETE
-        this.disabled_routes = disabled_routes
-        this.admin_routes = admin_routes
-        this.authenticated_routes = authenticated_routes
+        this.disabled_routes = options.disabled_routes || []
+        this.admin_routes = options.admin_routes || []
+        // By default all routes require authentication
+        this.authenticated_routes = options.authenticated_routes || ALL_RESTAPI_TYPES
+
+        // If empty array select all columns
+        this.select_columns = options.select_columns || []
 
         this.model_router = express.Router()
         this.generate_default_routes()

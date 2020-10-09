@@ -15,5 +15,10 @@ module.exports = {
         RESTAPI_TYPES.POST,
         RESTAPI_TYPES.PUT,
         RESTAPI_TYPES.DELETE
+    ],
+    WRITE_RESTAPI_TYPES: [
+        RESTAPI_TYPES.POST,
+        RESTAPI_TYPES.PUT,
+        RESTAPI_TYPES.DELETE
     ]
 }
