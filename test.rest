@@ -1,6 +1,6 @@
 
 GET http://localhost:3000/products/3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTYwMjE4NTY1MX0.phBnfjtwrjDaP9xSekucccc62mVGFK-3fYJQf6eK5Vg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAyLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjAyMjA0NjY5fQ.vU2_Vw295nSvq9pLixhIULUQm43YRcppq_H3jwPKxFk
 ###
 
 

@@ -1,9 +1,9 @@
 
 // Middleware which authenticates is this user admin or not 
-const authenticate_admin = async (req, res, next) => {
+const authenticate_admin = (req, res, next) => {
     try {
-        if (!req.employee) return res.sendStatus(401);
-        if (!req.employee.admin) return res.json({ message: "Sorry, you do not have permission!" });
+        if (!req.employee) return res.sendStatus(422);
+        if (!req.employee.admin) return res.sendStatus(403);
 
         next();
     } catch (err) {

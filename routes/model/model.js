@@ -6,19 +6,19 @@ const
 const
     config = require('../../config'),
     knex = require('knex')(config),
-    RESTAPI_TYPES = require('../enum/restapi_types');
-
-const REQUIRE_ADMIN = ['employees', 'products'];
+    RESTAPI_TYPES = require('../enum/restapi_types'),
+    REQUIRE_ADMIN = require('../enum/require_admin');
 
 class RouteModel {
 
-    constructor(model_name, model_id, select_columns, disabled_routes = []) {
+    constructor(model_name, model_id, select_columns, disabled_routes = [], admin = REQUIRE_ADMIN.NON_REQUIRE) {
         this.model_name = model_name
         this.model_id = model_id
         this.select_columns = select_columns
         // Options GET, GET_ID, POST, PUT, DELETE
         this.disabled_routes = disabled_routes
         this.model_router = express.Router()
+        this.admin = admin
 
         this.generate_default_routes()
     }
@@ -53,13 +53,14 @@ class RouteModel {
             });
         }
 
-        // Only admin user can create, update or delete employee or product,
-        // If this model is employee or product, set middleware to authenticate is
-        // this user admin
-        if (REQUIRE_ADMIN.includes(this.model_name))
-            this.model_router.use(authenticate_admin);
-
         if (!this.disabled_routes.includes(RESTAPI_TYPES.POST)) {
+
+            // Add conditional statement here to check authenticate_admin middleware is required
+            // If conditional statement is true, add the middleware to the post method
+            if (this.admin === REQUIRE_ADMIN.REQUIRE)
+                this.model_router.use(authenticate_admin);
+
+
             this.model_router.post('/', async (req, res) => {
                 try {
                     const insert_payload = { ...req.body };
@@ -72,6 +73,10 @@ class RouteModel {
         }
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.PUT)) {
+
+            if (this.admin === REQUIRE_ADMIN.REQUIRE)
+                this.model_router.use(authenticate_admin);
+
             this.model_router.put('/:' + this.model_id, async (req, res) => {
                 try {
                     const update_payload = { ...req.body };
@@ -84,6 +89,10 @@ class RouteModel {
         }
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.DELETE)) {
+
+            if (this.admin === REQUIRE_ADMIN.REQUIRE)
+                this.model_router.use(authenticate_admin);
+
             this.model_router.delete('/:' + this.model_id, async (req, res) => {
                 try {
                     await knex(this.model_name).where(this.model_id, req.params[this.model_id]).delete();
