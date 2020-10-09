@@ -6,20 +6,20 @@ const
 const
     config = require('../../config'),
     knex = require('knex')(config),
-    RESTAPI_TYPES = require('../enum/restapi_types'),
-    REQUIRE_ADMIN = require('../enum/require_admin');
+    RESTAPI_TYPES = require('../enum/restapi_types')
 
 class RouteModel {
 
-    constructor(model_name, model_id, select_columns, disabled_routes = [], admin = REQUIRE_ADMIN.NON_REQUIRE) {
+    constructor(model_name, model_id, select_columns = [], disabled_routes = [], admin_routes = []) {
         this.model_name = model_name
         this.model_id = model_id
         this.select_columns = select_columns
+
         // Options GET, GET_ID, POST, PUT, DELETE
         this.disabled_routes = disabled_routes
-        this.model_router = express.Router()
-        this.admin = admin
+        this.admin_routes = admin_routes
 
+        this.model_router = express.Router()
         this.generate_default_routes()
     }
 
@@ -28,18 +28,33 @@ class RouteModel {
         // Middleware to authenticate if user is logged in
         this.model_router.use(authenticate_token);
 
+
         if (!this.disabled_routes.includes(RESTAPI_TYPES.GET)) {
-            this.model_router.get('/', async (req, res) => {
-                try {
-                    const query_result = await knex(this.model_name).select(this.select_columns)
-                    res.json(query_result)
-                } catch (err) {
-                    res.status(500).json({ message: err.message })
-                }
-            })
+
+            // Check if this route needs admin permissions
+            if (this.admin_routes.includes(RESTAPI_TYPES.GET)) {
+                this.model_router.get('/', authenticate_admin)
+            }
+
+            if (!this.disabled_routes.includes(RESTAPI_TYPES.GET)) {
+                this.model_router.get('/', async (req, res) => {
+                    try {
+                        const query_result = await knex(this.model_name).select(this.select_columns)
+                        res.json(query_result)
+                    } catch (err) {
+                        res.status(500).json({ message: err.message })
+                    }
+                })
+            }
         }
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.GET_ID)) {
+
+            // Check if this route needs admin permissions
+            if (this.admin_routes.includes(RESTAPI_TYPES.GET_ID)) {
+                this.model_router.get('/:' + this.model_id, authenticate_admin)
+            }
+
             this.model_router.get('/:' + this.model_id, async (req, res) => {
                 try {
                     const query_result = (await knex(this.model_name).where(this.model_id, req.params[this.model_id]).select(this.select_columns))[0];
@@ -55,11 +70,10 @@ class RouteModel {
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.POST)) {
 
-            // Add conditional statement here to check authenticate_admin middleware is required
-            // If conditional statement is true, add the middleware to the post method
-            if (this.admin === REQUIRE_ADMIN.REQUIRE)
-                this.model_router.use(authenticate_admin);
-
+            // Check if this route needs admin permissions
+            if (this.admin_routes.includes(RESTAPI_TYPES.POST)) {
+                this.model_router.post('/', authenticate_admin)
+            }
 
             this.model_router.post('/', async (req, res) => {
                 try {
@@ -74,8 +88,10 @@ class RouteModel {
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.PUT)) {
 
-            if (this.admin === REQUIRE_ADMIN.REQUIRE)
-                this.model_router.use(authenticate_admin);
+            // Check if this route needs admin permissions
+            if (this.admin_routes.includes(RESTAPI_TYPES.PUT)) {
+                this.model_router.put('/', authenticate_admin)
+            }
 
             this.model_router.put('/:' + this.model_id, async (req, res) => {
                 try {
@@ -90,8 +106,10 @@ class RouteModel {
 
         if (!this.disabled_routes.includes(RESTAPI_TYPES.DELETE)) {
 
-            if (this.admin === REQUIRE_ADMIN.REQUIRE)
-                this.model_router.use(authenticate_admin);
+            // Check if this route needs admin permissions
+            if (this.admin_routes.includes(RESTAPI_TYPES.DELETE)) {
+                this.model_router.delete('/:' + this.model_id, authenticate_admin)
+            }
 
             this.model_router.delete('/:' + this.model_id, async (req, res) => {
                 try {

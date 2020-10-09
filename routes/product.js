@@ -1,9 +1,13 @@
 const
     RouteModel = require("./model/model"),
-    REQUIRE_ADMIN = require('./enum/require_admin'),
     MODEL_NAME = 'products',
     MODEL_ID = 'product_id',
-    product_model = new RouteModel(MODEL_NAME, MODEL_ID, [], [], REQUIRE_ADMIN.REQUIRE)
+    ADMIN_ROUTES = [
+        RESTAPI_TYPES.POST,
+        RESTAPI_TYPES.PUT,
+        RESTAPI_TYPES.DELETE
+    ],
+    product_model = new RouteModel(MODEL_NAME, MODEL_ID, undefined, undefined, ADMIN_ROUTES)
 
 
 module.exports = product_model.model_router;

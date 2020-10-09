@@ -1,6 +1,5 @@
 const
     RESTAPI_TYPES = require('./enum/restapi_types'),
-    REQUIRE_ADMIN = require('./enum/require_admin'),
     RouteModel = require("./model/model"),
     MODEL_NAME = 'employees',
     MODEL_ID = 'employee_id',
@@ -20,6 +19,11 @@ const
         RESTAPI_TYPES.PUT,
         RESTAPI_TYPES.DELETE
     ],
-    employee_model = new RouteModel(MODEL_NAME, MODEL_ID, SELECT_COLUMNS, DISABLED_ROUTES, REQUIRE_ADMIN.REQUIRE);
+    ADMIN_ROUTES = [
+        RESTAPI_TYPES.POST,
+        RESTAPI_TYPES.PUT,
+        RESTAPI_TYPES.DELETE
+    ],
+    employee_model = new RouteModel(MODEL_NAME, MODEL_ID, SELECT_COLUMNS, DISABLED_ROUTES, ADMIN_ROUTES);
 
 module.exports = employee_model.model_router;
