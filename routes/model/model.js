@@ -153,19 +153,19 @@ class RouteModel {
             // Add required middleware
             // Check if route needs user to be logged in
             if (this.authenticated_routes.includes(restapi_type)) {
-                route_config.method.bind(this.model_router, [route_config.path, authenticate_token])()
+                route_config.method.bind(this.model_router, route_config.path, authenticate_token)()
             }
 
             // Check if this route needs admin permissions
             if (this.admin_routes.includes(restapi_type)) {
-                route_config.method.bind(this.model_router, [route_config.path, authenticate_admin])()
+                route_config.method.bind(this.model_router, route_config.path, authenticate_admin)()
             }
 
             // Main route handler
             const route_handler = route_config.handler
 
             // Add route to router
-            route_config.method.bind(this.model_router, [route_config.path, route_handler])()
+            route_config.method.bind(this.model_router, route_config.path, route_handler)()
 
         })
     }
