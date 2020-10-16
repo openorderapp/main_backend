@@ -105,7 +105,8 @@ const register = async (req, res) => {
             req.body.email &&
             req.body.phone &&
             req.body.username &&
-            req.body.password
+            req.body.password &&
+            req.body.admin
         ))
             return res.json({ message: "Pleases complete the registration form!" });
 
@@ -132,7 +133,7 @@ const register = async (req, res) => {
             employee_username: req.body.username,
             employee_password_hash: hash_password,
             employee_password_salt: salt,
-            employee_is_admin: true
+            employee_is_admin: req.body.admin === "true"
         };
 
         await create_employee(employee);
@@ -166,7 +167,8 @@ const login = async (req, res) => {
         if (!(await bcryt.compare(req.body.password, existing_employee.employee_password_hash)))
             return res.json({ message: "Please review your credentials and try again!" })
 
-        const token = jwt.sign({ id: existing_employee.employee_id }, config.access_token_secret);
+        const token = jwt.sign({ id: existing_employee.employee_id, admin: existing_employee.employee_is_admin }, config.access_token_secret);
+        console.log(token);
         res.header("auth-token", token).send({ "token": token });
     } catch (err) {
         return res.status(500).json({ message: err.message });
