@@ -5,7 +5,7 @@ const
 
 const
     app = express(),
-    port = 3000,
+    port = 8080,
     swagger_options = {
         explorer: true
     };

@@ -1,5 +1,5 @@
 
-GET http://localhost:3000/products/4
+GET http://localhost:8080/products/4
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAyLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjAyMjA0NjY5fQ.vU2_Vw295nSvq9pLixhIULUQm43YRcppq_H3jwPKxFk
 ###
 
