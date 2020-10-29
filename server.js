@@ -1,11 +1,12 @@
 const
     express = require('express'),
     swagger_ui = require('swagger-ui-express'),
-    swagger_document = require('./swagger.json');
+    swagger_document = require('./swagger.json'),
+    config = require('./config')
 
 const
     app = express(),
-    port = 8080,
+    port = config.port,
     swagger_options = {
         explorer: true
     };
