@@ -1,5 +1,5 @@
 @hostname = localhost
-@port = 8080
+@port = 8000
 @host = {{hostname}}:{{port}}
 @authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAyLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjAyMjA0NjY5fQ.vU2_Vw295nSvq9pLixhIULUQm43YRcppq_H3jwPKxFk
 
