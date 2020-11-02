@@ -1,11 +1,27 @@
 @hostname = localhost
 @port = 8000
 @host = {{hostname}}:{{port}}
-@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAyLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjAyMjA0NjY5fQ.vU2_Vw295nSvq9pLixhIULUQm43YRcppq_H3jwPKxFk
+@authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDQwMjkxNjksImV4cCI6MTYwNDAyOTE5OX0.GS2hjAR48OUGbbGxx8Hv_J9u27rZGZ6fOxKqWvCTwdo
 
 
 GET http://{{host}}/products/4
 Authorization: Bearer {{authorization}}
+###
+
+POST http://{{host}}/auth/employee/generate_new_token
+Content-Type: application/json
+
+{
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTYwNDM1NjA5MH0.muWzBFjyXuBNhSbdHEnQ0vUZsZk9G2TDZszk0CWTIuI"
+}
+###
+
+DELETE http://{{host}}/auth/employee/logout
+Content-Type: application/json
+
+{
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTYwNDM1NjA5MH0.muWzBFjyXuBNhSbdHEnQ0vUZsZk9G2TDZszk0CWTIuI"
+}
 ###
 
 

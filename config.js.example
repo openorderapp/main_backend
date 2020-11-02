@@ -9,6 +9,7 @@ const config = {
         host: "127.0.0.1"
     },
     access_token_secret: "e6307cb3ccf280393faf3c2bcf7284677a2e84433612edb4eef93ffbcd1a4fbb3c40961749bf038884d6d9a67d6cc8965d43f950e3a9e5d9ed4b7d2ec5ec5302",
+    refresh_token_secret: "09fee220c283d73eb387cbe838ea5ce5786e89e086179f43b388ef9b85c2dbd7bd42bde8172fe7f4d3acfd7c6d7722ea35c5ccdb5ffaa7d5d0d492127d0ff5f3",
     captcha_secretkey: "6LcaKtIZAAAAAMle0f8kTa0hj2Auf9R9pqzOxaF6"
 }
 
