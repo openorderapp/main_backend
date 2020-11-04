@@ -97,7 +97,7 @@ const create_employee = async (employee) => {
 
 // Function which creates access token
 const create_access_token = (existing_employee) => {
-    const access_token = jwt.sign({ id: existing_employee.employee_id, admin: existing_employee.employee_is_admin }, config.access_token_secret, { expiresIn: '30s' });
+    const access_token = jwt.sign({ id: existing_employee.employee_id, admin: existing_employee.employee_is_admin }, config.access_token_secret, { expiresIn: config.access_token_expire_in });
     return access_token;
 }
 

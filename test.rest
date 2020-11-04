@@ -2,6 +2,7 @@
 @port = 8000
 @host = {{hostname}}:{{port}}
 @authorization = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDQwMjkxNjksImV4cCI6MTYwNDAyOTE5OX0.GS2hjAR48OUGbbGxx8Hv_J9u27rZGZ6fOxKqWvCTwdo
+@refresh_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTYwNDUyMjY5OX0.oSbxGkyAiV5sySw29DiQhF2DEwVFxxI8FvasskpXuzU"
 
 
 GET http://{{host}}/products/4
@@ -12,7 +13,7 @@ POST http://{{host}}/auth/employee/generate_new_token
 Content-Type: application/json
 
 {
-    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTYwNDM1NjA5MH0.muWzBFjyXuBNhSbdHEnQ0vUZsZk9G2TDZszk0CWTIuI"
+    "refresh_token": {{refresh_token}}
 }
 ###
 
@@ -20,7 +21,7 @@ DELETE http://{{host}}/auth/employee/logout
 Content-Type: application/json
 
 {
-    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTYwNDM1NjA5MH0.muWzBFjyXuBNhSbdHEnQ0vUZsZk9G2TDZszk0CWTIuI"
+    "refresh_token": {{refresh_token}}
 }
 ###
 
