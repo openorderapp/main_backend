@@ -59,9 +59,15 @@
                 method: 'post',
                 body: JSON.stringify(data)
             })
-                .then(response => response.text())
-                .then(text => showResult(text))
-                .catch(error => showResult(error));
+                .then(response => response.json())
+                .then(response => {
+                    const token = response.access_token;
+                    if (!token) {
+                        return showResult(response.message);
+                    }
+                    window.alert('Successfully logged in!');
+                    console.log(response);
+                });
         }
 
         function showResult(text) {

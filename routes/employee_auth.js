@@ -95,6 +95,45 @@ const create_employee = async (employee) => {
     }
 }
 
+// Function which creates access token
+const create_access_token = (existing_employee) => {
+    const access_token = jwt.sign({ id: existing_employee.employee_id, admin: existing_employee.employee_is_admin }, config.access_token_secret, { expiresIn: config.access_token_expire_in });
+    return access_token;
+}
+
+// Function which adds refresh token to database
+const add_refresh_token = async (refresh_token) => {
+    try {
+        const TABLE_NAME = 'refresh_tokens';
+        await knex(TABLE_NAME).insert(refresh_token);
+    } catch (err) {
+        return err;
+    }
+}
+
+// Function which finds refresh token on database
+const find_refresh_token = async (refresh_token) => {
+    try {
+        const TABLE_NAME = 'refresh_tokens';
+        const COLUMN_NAME = 'refresh_token';
+        const matching_refresh_tokens = await knex(TABLE_NAME).where(COLUMN_NAME, refresh_token).select();
+        return matching_refresh_tokens[0];
+    } catch (err) {
+        return null;
+    }
+}
+
+// Function which delete refresh token on database
+const delete_refresh_token = async (refresh_token) => {
+    try {
+        const TABLE_NAME = 'refresh_tokens';
+        const COLUMN_NAME = 'refresh_token';
+        await knex(TABLE_NAME).where(COLUMN_NAME, refresh_token).delete();
+    } catch (err) {
+        return err;
+    }
+}
+
 const register = async (req, res) => {
     try {
 
@@ -167,12 +206,34 @@ const login = async (req, res) => {
         if (!(await bcryt.compare(req.body.password, existing_employee.employee_password_hash)))
             return res.json({ message: "Please review your credentials and try again!" })
 
-        const token = jwt.sign({ id: existing_employee.employee_id, admin: existing_employee.employee_is_admin }, config.access_token_secret);
-        console.log(token);
-        res.header("auth-token", token).send({ "token": token });
+        const access_token = create_access_token(existing_employee);
+        const refresh_token = jwt.sign({ id: existing_employee.employee_id, admin: existing_employee.employee_is_admin }, config.refresh_token_secret);
+        await add_refresh_token({ employee_id: existing_employee.employee_id, refresh_token: refresh_token });
+
+        res.json({ "access_token": access_token, "refresh_token": refresh_token });
     } catch (err) {
         return res.status(500).json({ message: err.message });
     }
+}
+
+const logout = async (req, res) => {
+    await delete_refresh_token(req.body.refresh_token);
+    res.sendStatus(204);
+}
+
+const generate_new_token = async (req, res) => {
+    const refresh_token = req.body.refresh_token;
+    if (!refresh_token) return res.sendStatus(401);
+
+    const existing_refresh_token = await find_refresh_token(refresh_token);
+    if (!existing_refresh_token) return res.sendStatus(403);
+
+    jwt.verify(refresh_token, config.refresh_token_secret, (err, existing_employee) => {
+        if (err) return res.sendStatus(403);
+        const access_token = create_access_token(existing_employee);
+        res.json({ "access_token": access_token });
+    });
+
 }
 
 router.get('/', authenticate_token, async (req, res) => {
@@ -184,8 +245,12 @@ router.get('/', authenticate_token, async (req, res) => {
     }
 });
 
+router.post('/generate_new_token', generate_new_token);
+
 router.post('/register', authenticate_captcha, register);
 
 router.post('/login', authenticate_captcha, login);
+
+router.delete('/logout', logout);
 
 module.exports = router

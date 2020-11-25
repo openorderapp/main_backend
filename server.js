@@ -25,6 +25,12 @@ const
     work_orders = require('./routes/work_orders');
 
 app
+    .use((req, res, next) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+        next();
+    })
     .use('/api-docs', swagger_ui.serve, swagger_ui.setup(swagger_document, swagger_options))
     .use(express.json())
     .use(express.urlencoded({ extended: false }))
